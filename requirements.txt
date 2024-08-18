@@ -6,3 +6,5 @@ pillow
 tensorflow-serving-api==2.14.0
 matplotlib
 numpy
+jinja2==3.1.2
+requests==2.31.0
