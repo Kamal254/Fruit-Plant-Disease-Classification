@@ -1,11 +1,10 @@
 tensorflow==2.14.0
-fastapi
-uvicorn
+fastapi==0.112.1
+uvicorn==0.30.6
 python-multipart
-pillow
+pillow==10.4.0
 tensorflow-serving-api==2.14.0
-matplotlib
-numpy
+numpy == 1.26.4
 jinja2==3.1.2
 requests==2.31.0
 gunicorn==22.0.0
