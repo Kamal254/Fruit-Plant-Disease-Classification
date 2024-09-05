@@ -1,126 +1,129 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Disease Prediction</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-        .container h1 {
-            margin-bottom: 20px;
-        }
-        .container input[type="file"] {
-            display: block;
-            margin: 20px auto;
-        }
-        .container button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .container button:disabled {
-            background-color: #ccc;
-        }
-        .result {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Plant Disease Prediction</h1>
-        <form id="uploadForm">
-            <input type="file" id="imageInput" accept="image/*" required>
-            <button type="submit">Predict</button>
-        </form>
-        <div class="result" id="result"></div>
-    </div>
-
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-
-            const fileInput = document.getElementById('imageInput');
-            const resultDiv = document.getElementById('result');
-
-            if (!fileInput.files[0]) {
-                resultDiv.innerHTML = "<p>Please select an image file.</p>";
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('file', fileInput.files[0]);
-
-            resultDiv.innerHTML = "<p>Loading...</p>";
-
-            try {
-                const response = await fetch('http://localhost:8000/predict', {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (!response.ok) {
-                    throw new Error("Prediction failed");
-                }
-
-                const data = await response.json();
-                resultDiv.innerHTML = `<p><strong>Disease:</strong> ${data.class}</p>
-                                       <p><strong>Confidence:</strong> ${data.confidence.toFixed(2)}</p>`;
-            } catch (error) {
-                resultDiv.innerHTML = "<p>There was an error processing your request.</p>";
-            }
-        });
-    </script>
-</body>
-</html> -->
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tomato Disease Prediction</title>
-    <link rel="stylesheet" href="/static/style.css"> <!-- Optional: Link to your CSS -->
+    <title>Plant Disease Prediction</title>
+    <link rel="stylesheet" href="/static/style.css"> <!-- Link to your CSS -->
 </head>
 <body>
-    <h1>Tomato Disease Prediction</h1>
-    <form id="upload-form" enctype="multipart/form-data">
-        <input type="file" name="file" id="file-input" accept="image/*" required>
-        <button type="submit">Upload and Predict</button>
-    </form>
-    <div id="result">
-        <!-- Prediction result will be shown here -->
+    <div class="container">
+        <div class="image-section">
+            <h1>Available Images</h1>
+            <div id="images">
+                <div class="image-grid-main-div">
+                    <h4>Apple Black Rot Disease</h4>
+                    <div class="images-grid" style="flex-direction: column;">
+                        <img id="image1" src="static\assets\apple_black_rot\00e909aa-e3ae-4558-9961-336bb0f35db3___JR_FrgE.S 8593_270deg.JPG" alt="Apple Black" draggable="true" ondragstart="drag(event)">
+                        <img id="image2" src="static\assets\apple_black_rot\0bc40cc3-6a85-480e-a22f-967a866a56a1___JR_FrgE.S 2784.JPG" alt="Apple Black" draggable="true" ondragstart="drag(event)">
+                        <img id="image3" src="static\assets\apple_black_rot\0ca16873-eeac-47e9-9a87-1859950daab7___JR_FrgE.S 2835_90deg.JPG" alt="Apple Black" draggable="true" ondragstart="drag(event)">
+                    </div>
+                </div>
+
+                <div class="image-grid-main-div">
+                    <h4>Cherry Sour Powdery Mildew</h4>
+                    <div class="images-grid" style="flex-direction: column;">
+                        <img id="image1" src="static\assets\Cherry_sour_powdery_mildew\1bbbffe8-ebdd-497c-b8ed-d90ad1a901e8___FREC_Pwd.M 4755.JPG" alt="Cherry Sour Powdery Mildew" draggable="true" ondragstart="drag(event)">
+                        <img id="image2" src="static\assets\Cherry_sour_powdery_mildew\0d20bb6d-798a-4c82-8aea-8d64bd1a086b___FREC_Pwd.M 4761.JPG" alt="Cherry Sour Powdery Mildew" draggable="true" ondragstart="drag(event)">
+                        <img id="image3" src="static\assets\Cherry_sour_powdery_mildew\00f8611c-0f2c-4f24-8241-d1748c8bb48f___FREC_Pwd.M 0479_flipLR.JPG" alt="Cherry Sour Powdery Mildew" draggable="true" ondragstart="drag(event)">
+                    </div>
+                </div>
+
+                <div class="image-grid-main-div">
+                    <h4>Grape Esca black measles</h4>
+                    <div class="images-grid" style="flex-direction: column;">
+                        <img id="image1" src="static\assets\Grape_Esca_black_measles\0d35ae1a-b701-4c3e-994f-25cf8f8e4d83___FAM_B.Msls 4261.JPG" alt="Grape_Esca_black_measles" draggable="true" ondragstart="drag(event)">
+                        <img id="image2" src="static\assets\Grape_Esca_black_measles\0dc0626e-76d1-4ea6-b226-a93a6e9d8fe0___FAM_B.Msls 4017.JPG" alt="Grape_Esca_black_measles" draggable="true" ondragstart="drag(event)">
+                        <img id="image3" src="static\assets\Grape_Esca_black_measles\1a42bbec-0709-41b6-91d3-0074e1f8e9c7___FAM_B.Msls 3958.JPG" alt="Grape_Esca_black_measles" draggable="true" ondragstart="drag(event)">
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        <div class="prediction-section">
+            <h1>Plant Disease Prediction</h1>
+            <p>Drag and drop or select an image in the area below</p>
+            <div id="drop-area" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <input type="file" name="file" id="file-input" accept="image/*" required style="display:none;">
+                <div style="text-align: center;">
+                    <img id="preview-image" alt="Selected Image Preview">
+                </div>
+            </div>
+            <form id="upload-form" enctype="multipart/form-data">
+                <button type="submit">Upload and Predict</button>
+            </form>
+            <div id="result">
+                <!-- Prediction result will be shown here -->
+            </div>
+        </div>
     </div>
 
     <script>
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const previewImage = document.getElementById('preview-image');
+
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("text", event.target.id);
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData("text");
+            const draggedImage = document.getElementById(data);
+            previewImage.src = draggedImage.src;
+            previewImage.style.display = 'block';
+        }
+
+        dropArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            fileInput.files = e.dataTransfer.files;
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         const form = document.getElementById('upload-form');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const fileInput = document.getElementById('file-input');
             const formData = new FormData();
             formData.append('file', fileInput.files[0]);
 
@@ -137,3 +140,240 @@
     </script>
 </body>
 </html>
+
+
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    text-align: center;
+    padding: 20px;
+}
+
+.image-grid-main-div {
+    border: 2px solid #4CAF50; /* Green border */
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9; /* Light background color */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Image grid layout */
+.images-grid {
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Image styling */
+.images-grid img {
+    width: 100px;
+    height: auto;
+    border-radius: 4px; /* Rounded image corners */
+    transition: transform 0.3s ease; /* Smooth zoom on hover */
+}
+
+/* Hover effect */
+.images-grid img:hover {
+    transform: scale(1.1); /* Zoom effect */
+}
+
+/* Title for each disease type */
+.image-grid-main-div h4 {
+    margin-bottom: 10px;
+    color: #333; /* Dark text color */
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Overall section container */
+.container {
+    background-color: #e6f7ff; /* Light blue background */
+    padding: 20px;
+    border-radius: 8px; /* Rounded container corners */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Deeper shadow for depth */
+}
+
+/* Section title */
+.image-section h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+
+h1 {
+    color: #333;
+}
+
+.drag-drop-area {
+    width: 300px;
+    height: 200px;
+    border: 5px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.drag-drop-area.drag-over {
+    background-color: #e0e0e0;
+}
+
+.hidden {
+    display: none;
+}
+
+#selected-image {
+    max-width: 100%;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+#predict-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#predict-button:hover {
+    background-color: #45a049;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+p {
+    margin: 0;
+    padding: 10px 0;
+}
+
+#drop-area {
+            border: 5px dashed #000000;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            transition: border-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            position: relative;
+            overflow: hidden; /* Ensure the pseudo-element doesn't overflow */
+        }
+
+        #drop-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://c4.wallpaperflare.com/wallpaper/788/1002/429/plantation-cycle-farming-agriculture-hd-wallpaper-preview.jpg'); /* Ensure the correct path */
+            background-size: cover; /* Scale the background image to cover the area */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+            opacity: 0.5; /* Adjust the opacity as needed (0 is fully transparent, 1 is fully opaque) */
+            z-index: -1; /* Place it behind the content */
+        }
+
+        #drop-area p {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin: 0;
+            color: #666;
+        }
+
+        #drop-area img {
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        #drop-area.dragover {
+            border-color: #666;
+        }
+
+        .container {
+            display: flex;
+            /* justify-content: space-between; */
+            justify-content: center;
+            align-content: center;
+            align-items: baseline;
+        }
+
+        .image-section {
+            width: 40%;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+
+        .image-section img {
+            width: 100%;
+            max-width: 100px;
+            margin: 10px 0;
+            cursor: grab;
+        }
+
+        .prediction-section {
+            width: 55%;
+            padding: 20px;
+        }
+
+        #drop-area {
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            transition: border-color 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            position: relative;
+        }
+
+        #drop-area img {
+            max-width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        #drop-area.dragover {
+            border-color: #666;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
+</style>
